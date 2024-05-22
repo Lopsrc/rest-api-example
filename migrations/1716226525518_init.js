@@ -37,7 +37,7 @@ exports.up = (pgm) => {
             onDelete: 'cascade',
         },
     });
-    pgm.createIndex('email', 'person');
+    pgm.createIndex('person','email');
 };
 
 /**
