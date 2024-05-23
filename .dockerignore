@@ -4,3 +4,4 @@ info.todo
 config/local
 Dockerfile
 docker-compose.yaml
+info
