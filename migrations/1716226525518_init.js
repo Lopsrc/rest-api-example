@@ -1,4 +1,3 @@
-const { model } = require('mongoose');
 
 /**
  * @type {import('node-pg-migrate').ColumnDefinitions | undefined}
@@ -14,7 +13,11 @@ exports.up = (pgm) => {
     pgm.createTable('person', {
         id: 'id',
         name: { type: 'text', notNull: true },
-        email: { type: 'text', notNull: true},
+        email: { 
+            type: 'text',
+            notNull: true, 
+            unique: true,
+        },
         age: { type: 'integer', notNull: true },
         del: { 
             type: 'boolean',
@@ -31,7 +34,7 @@ exports.up = (pgm) => {
             type: 'text', 
             notNull: true, 
             unique: true },
-        personId: {
+        person_id: {
             type: 'integer',
             references: '"person"',
             onDelete: 'cascade',

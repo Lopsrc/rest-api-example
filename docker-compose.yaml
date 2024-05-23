@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  crud:
+    container_name: crud
+    build: .
+    ports:
+      - "3001:3000"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+    restart: always
+    depends_on:
+      - db
+  
+  db:
+    container_name: db
+    image: postgres:latest
+    ports:
+      - "65432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db_ps:/var/lib/postgresql/data
+
+volumes:
+  db_ps: {}

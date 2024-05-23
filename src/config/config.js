@@ -1,14 +1,22 @@
 const dotenv = require('dotenv');
 const path = require('path');
 const Joi = require('joi');
+const fs = require("fs"); // Or `import fs from "fs";` with ESM
 
-dotenv.config({ path: path.join(__dirname, '../../.env') });
+// Check if the file exists, if not, load configuration for 
+if (fs.existsSync('../../config/local/.env.example')) {
+    // Do something
+    dotenv.config({ path: path.join(__dirname, '../../config/local/.env.example') });
+}else{
+    dotenv.config({ path: path.join(__dirname, '../../config/prod/.env.example') });
+}
+// dotenv.config({ path: path.join(__dirname, '../../docker/.env.example') });
 
 const envVarsSchema = Joi.object()
     .keys({
         ENV: Joi.string().valid('production', 'development', 'test').required(),
         PORT: Joi.number().default(3000),
-        MONGODB_URL: Joi.string().required().description('Mongo DB url'),
+        DATABASE_URL: Joi.string().required().description('PostgreSQL url'),
     })
     .unknown();
 
@@ -20,13 +28,5 @@ if (error) {
 module.exports = {
     env: envVars.ENV,
     port: envVars.PORT,
-    mongoose: {
-        url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
-        options: {
-            // useCreateIndex: true,
-            // serverSelectionTimeoutMS: 5000,
-            // useNewUrlParser: true,
-            // useUnifiedTopology: true,
-        },
-    },
+    database: envVars.DATABASE_URL,
 };
