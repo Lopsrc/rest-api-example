@@ -59,7 +59,7 @@ package.json
 package-lock.json
 README.md
 ```
-### Databse structure.
+### Database structure.
 ![alt text](info/photo/image.png)
 
 ## Technologies.

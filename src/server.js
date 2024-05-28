@@ -12,7 +12,6 @@ const v1carRouter = require('./v1/routes/car.routes');
 const app = express();
 
 app.use(bodyParser.json());
-
 // create routes.
 app.use('/api/v1/user', v1userRouter);
 app.use('/api/v1/car', v1carRouter);
