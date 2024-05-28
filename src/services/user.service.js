@@ -1,6 +1,11 @@
 const Repository = require('../database/postgres/user.db');
-const ApiError = require('../utils/error');
+const ApiError = require('../pkg/error');
 
+/**
+ * Function to get all users from the database.
+ * @returns {Promise<Array>} - A promise that resolves to an array of user objects.
+ * @throws {ApiError} - If there are no users in the database.
+ */
 const getAllUsers = async function(){
     try {
         const users = await Repository.getAllUsers();
@@ -13,6 +18,12 @@ const getAllUsers = async function(){
     }
 };
 
+/**
+ * Function to get a user by email from the database.
+ * @param {string} email - The email of the user to retrieve.
+ * @returns {Promise<Object>} - A promise that resolves to a user object.
+ * @throws {ApiError} - If the user does not exist in the database.
+ */
 const getByEmail = async function(email) {
     try {
         const user = await Repository.getByEmail(email);
@@ -25,6 +36,12 @@ const getByEmail = async function(email) {
     }
 };
 
+/**
+ * Function to create a new user in the database.
+ * @param {Object} newUser - The new user object to create.
+ * @returns {Promise<number>} - A promise that resolves to the id of the newly created user.
+ * @throws {ApiError} - If the user already exists in the database.
+ */
 const createUser = async function(newUser) {
     try {        
         return await Repository.createUser(newUser);
@@ -37,6 +54,12 @@ const createUser = async function(newUser) {
     } 
 };
 
+/**
+ * Function to update an existing user in the database.
+ * @param {Object} userUpdate - The updated user object.
+ * @returns {Promise<number>} - A promise that resolves to the id of the updated user.
+ * @throws {ApiError} - If the user does not exist in the database.
+ */
 const updateUser = async function(userUpdate){
     try {
         await getByEmail(userUpdate.email);
@@ -52,6 +75,12 @@ const updateUser = async function(userUpdate){
     }              
 };
 
+/**
+ * Function to delete a user from the database.
+ * @param {string} email - The email of the user to delete.
+ * @returns {Promise<number>} - A promise that resolves to the id of the deleted user.
+ * @throws {ApiError} - If the user does not exist in the database.
+ */
 const deleteUser = async function(email){
     try {
         await getByEmail(email);
@@ -61,6 +90,12 @@ const deleteUser = async function(email){
     }
 };
 
+/**
+ * Function to recover a user in the database.
+ * @param {string} email - The email of the user to recover.
+ * @returns {Promise<number>} - A promise that resolves to the id of the recovered user.
+ * @throws {ApiError} - If the user does not exist in the database.
+ */
 const recoveryUser = async function(email){
     try {
         await getByEmail(email);

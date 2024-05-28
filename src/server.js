@@ -1,7 +1,7 @@
 const express = require('express');
 
 const config = require('./config/config');
-const logger = require('./utils/logger');
+const logger = require('./pkg/logger');
 const bodyParser = require('body-parser');
 
 const v1userRouter = require('./v1/routes/user.routes');

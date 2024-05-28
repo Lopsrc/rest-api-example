@@ -1,8 +1,14 @@
 const service = require('../services/car.service');
-const validate = require('../utils/validation/car.validation');
-const ApiError = require('../utils/error');
-const logger = require('../utils/logger');
+const validate = require('../middlewares/validation/car.validation');
+const ApiError = require('../pkg/error');
+const logger = require('../pkg/logger');
 
+/**
+ * Fetches all cars from the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const getAllCars = async function(req, res) {
     try {
         logger.info('Get all cars');
@@ -20,6 +26,12 @@ const getAllCars = async function(req, res) {
     }
 };
 
+/**
+ * Fetches a car by its ID from the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const getById = async function(req, res) {
     try {
         logger.info('Get one car');
@@ -43,6 +55,12 @@ const getById = async function(req, res) {
     }
 };
 
+/**
+ * Creates a new car in the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const createCar = async function(req, res) {
     try {
         logger.info('Create new car');
@@ -72,6 +90,12 @@ const createCar = async function(req, res) {
     }
 };
 
+/**
+ * Updates an existing car in the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const updateCar = async function(req, res) {
     try {
         logger.info('Update one car');
@@ -101,6 +125,12 @@ const updateCar = async function(req, res) {
     }
 };
 
+/**
+ * Deletes a car from the database by its ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const deleteCar = async function(req, res) {
     try {
         logger.info('Delete one car');

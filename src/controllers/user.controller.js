@@ -1,9 +1,15 @@
 const service = require('../services/user.service');
-const validate = require('../utils/validation/user.validation');
-const ApiError = require('../utils/error');
+const validate = require('../middlewares/validation/user.validation');
+const ApiError = require('../pkg/error');
 
-const logger = require('../utils/logger');
+const logger = require('../pkg/logger');
 
+/**
+ * Fetches all users from the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const getAllUsers = async function(req, res) {
     try {
         logger.info('Get all users');
@@ -19,6 +25,12 @@ const getAllUsers = async function(req, res) {
     }
 };
 
+/**
+ * Fetches a user by email from the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const getByEmail = async function(req, res) {
     try {
         logger.info('Get one user');
@@ -39,6 +51,12 @@ const getByEmail = async function(req, res) {
     }
 };
 
+/**
+ * Creates a new user in the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const createUser = async function(req, res) {
     
     try {
@@ -65,6 +83,12 @@ const createUser = async function(req, res) {
     }
 };
 
+/**
+ * Updates an existing user in the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const updateUser = async function(req, res) {
     try {
         logger.info('Update one user');
@@ -90,6 +114,12 @@ const updateUser = async function(req, res) {
     }
 };
 
+/**
+ * Deletes a user from the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const deleteUser = async function(req, res) {
     try {
         logger.info('Delete one user');
@@ -103,7 +133,7 @@ const deleteUser = async function(req, res) {
         await service.deleteUser(email);
         res.send({status:'OK', isDel: true});
     } catch (error) {
-        logger.error(error);
+        logger.error(error.message);
         res.status(error?.status || 500).send({
             status: 'FAILED',
             data: { error: error?.message || error },
@@ -111,6 +141,12 @@ const deleteUser = async function(req, res) {
     }
 };
 
+/**
+ * Recovers a deleted user from the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const recoveryUser = async function(req, res) {
     try {
         logger.info('Recover one user');
@@ -124,7 +160,7 @@ const recoveryUser = async function(req, res) {
         await service.recoveryUser(email);
         res.send({status:'OK', isRec: true});
     } catch (error) {
-        logger.error(error);
+        logger.error(error.message);
         res.status(error?.status || 500).send({
             status: 'FAILED',
             data: { error: error?.message || error },

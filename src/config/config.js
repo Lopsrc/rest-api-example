@@ -3,14 +3,12 @@ const path = require('path');
 const Joi = require('joi');
 const fs = require("fs"); // Or `import fs from "fs";` with ESM
 
-// Check if the file exists, if not, load configuration for 
-if (fs.existsSync('../../config/local/.env.example')) {
-    // Do something
-    dotenv.config({ path: path.join(__dirname, '../../config/local/.env.example') });
+// Check if the file exists, otherwise load configuration from prod file.
+if (fs.existsSync('./config/local/.env.example')) {
+    dotenv?.config({ path: path.join(__dirname, '../../config/local/.env.example') });
 }else{
     dotenv.config({ path: path.join(__dirname, '../../config/prod/.env.example') });
 }
-// dotenv.config({ path: path.join(__dirname, '../../docker/.env.example') });
 
 const envVarsSchema = Joi.object()
     .keys({
