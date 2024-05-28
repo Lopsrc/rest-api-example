@@ -12,7 +12,9 @@
   "description": "",
   "devDependencies": {
     "node-pg-migrate": "^7.3.2",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -22,6 +24,7 @@
     "joi": "^17.13.1",
     "mongoose": "^8.4.0",
     "pg": "^8.11.5",
+    "swagger": "^0.0.1",
     "uuid": "^9.0.1",
     "winston": "^3.13.0"
   }

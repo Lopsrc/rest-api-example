@@ -48,7 +48,7 @@ const getById = async function(req, res) {
     } catch (error) {
         logger.error(error.message);
 
-        res.status(error?.statusCode || 500).send({
+        res.status(error?.status || 500).send({
             status: 'FAILED',
             data: { error: error?.message || error },
         });
@@ -79,11 +79,11 @@ const createCar = async function(req, res) {
             regNum: body.regNum,
         });
 
-        res.send({status: 'OK', id: id});
+        res.status(201).send({status: 'OK', id: id});
     } catch (error) {
         logger.error(error.message);
 
-        res.status(error?.statusCode || 500).send({
+        res.status(error?.status || 500).send({
             status: 'FAILED',
             data: { error: error?.message || error },
         });
@@ -118,7 +118,7 @@ const updateCar = async function(req, res) {
     } catch (error) {
         logger.error(error.message);
 
-        res.status(error?.statusCode || 500).send({
+        res.status(error?.status || 500).send({
             status: 'FAILED',
             data: { error: error?.message || error },
         });
@@ -147,7 +147,7 @@ const deleteCar = async function(req, res) {
     } catch (error) {
         logger.error(error.message);
 
-        res.status(error?.statusCode || 500).send({
+        res.status(error?.status || 500).send({
             status: 'FAILED',
             data: { error: error?.message || error },
         });

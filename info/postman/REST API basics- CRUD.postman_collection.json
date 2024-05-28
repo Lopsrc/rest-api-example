@@ -1,8 +1,7 @@
 {
 	"info": {
 		"_postman_id": "e894ba96-b620-4ae6-9570-ce7a073cbf45",
-		"name": "REST API CRUD",
-		"description": "",
+		"name": "REST API basics: CRUD",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33149280"
 	},
@@ -30,12 +29,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{car}}/4",
+							"raw": "{{car}}/1",
 							"host": [
 								"{{car}}"
 							],
 							"path": [
-								"4"
+								"1"
 							]
 						}
 					},
@@ -48,7 +47,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"brand\": \"Volga\",\n    \"model\": \"3102\",\n    \"color\": \"black\",\n    \"regNum\": \"C777CC797\"\n}",
+							"raw": "{\n    \"id\": 1,\n    \"brand\": \"Volga\",\n    \"model\": \"3102\",\n    \"color\": \"black\",\n    \"regNum\": \"C707CC797\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -93,18 +92,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{car}}/?id=1",
+							"raw": "{{car}}/1",
 							"host": [
 								"{{car}}"
 							],
 							"path": [
-								""
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "1"
-								}
+								"1"
 							]
 						}
 					},
@@ -195,7 +188,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Lopsrc\",\n    \"lastName\": \"lopsrc\",\n    \"email\": \"serpan@example.com\",\n    \"age\": 30\n}",
+							"raw": "{\n\t\"name\": \"Lopsrc\",\n    \"email\": \"serpan@example.com\",\n    \"age\": 30\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -234,7 +227,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Lopsrc\",\n    \"lastName\": \"Pan\",\n    \"email\": \"lopsrc@example.com\",\n    \"age\": 22\n}",
+							"raw": "{\n\t\"name\": \"Lopsrc\",\n    \"lastName\": \"Pan\",\n    \"email\": \"serpan@example.com\",\n    \"age\": 22\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -272,12 +265,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{user}}/o@example.com",
+							"raw": "{{user}}/serpan@example.com",
 							"host": [
 								"{{user}}"
 							],
 							"path": [
-								"o@example.com"
+								"serpan@example.com"
 							]
 						},
 						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
@@ -290,12 +283,12 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{user}}/o@example.com",
+							"raw": "{{user}}/serpan@example.com",
 							"host": [
 								"{{user}}"
 							],
 							"path": [
-								"o@example.com"
+								"serpan@example.com"
 							]
 						}
 					},

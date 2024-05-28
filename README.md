@@ -28,23 +28,23 @@ src
 │   └── postgres
 │       ├── car.db.js
 │       └── user.db.js
-├── migrate
-│   └── migrate.js
-├── models
-│   └── user.models.js
-├── pkg
-│   └── clients
-│       └── postgres
-│           └── client.js
-├── services
-│   ├── car.service.js
-│   └── user.service.js
-├── utils
-│   ├── error.js
-│   ├── logger.js
+├── middlewares
 │   └── validation
 │       ├── car.validation.js
 │       └── user.validation.js
+├── models
+│   └── user.models.js
+├── pkg
+│   ├── clients
+│   │   └── postgres
+│   │       └── client.js
+│   ├── error.js
+│   ├── logger.js
+├── services
+│   ├── car.service.js
+│   └── user.service.js
+├── swagger
+│   └── options.js
 ├── v1
 |   └── routes
 |        ├── car.routes.js
@@ -74,6 +74,8 @@ README.md
 >
 > [Migrations node-pg-migrate](https://www.npmjs.com/package/node-pg-migrate)
 >
+> [Swagger](https://swagger.io)
+
 
 
 ## Usage.

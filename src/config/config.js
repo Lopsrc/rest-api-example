@@ -1,9 +1,9 @@
 const dotenv = require('dotenv');
 const path = require('path');
 const Joi = require('joi');
-const fs = require("fs"); // Or `import fs from "fs";` with ESM
+const fs = require("fs"); 
 
-// Check if the file exists, otherwise load configuration from prod file.
+// Check if the file exists, load local config, otherwise load configuration from prod file.
 if (fs.existsSync('./config/local/.env.example')) {
     dotenv?.config({ path: path.join(__dirname, '../../config/local/.env.example') });
 }else{
@@ -21,7 +21,7 @@ const envVarsSchema = Joi.object()
 const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
 
 if (error) {
-    console.log("config read error", error);//throw new Error(`Config validation error: ${error.message}`);
+    console.log("config read error", error.message);
 }
 module.exports = {
     env: envVars.ENV,
