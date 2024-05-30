@@ -1,5 +1,5 @@
 const ApiError = require("../../pkg/error");
-
+var validator = require('validator');
 /**
  * Retrieves a user based on the provided email.
  *
@@ -8,8 +8,8 @@ const ApiError = require("../../pkg/error");
  * @returns {void}
  */
 const getUser = (email) => {
-    if (!email) {
-        throw new ApiError(400, "invalid credentials."); 
+    if (!email || !(validator.isEmail(email))) {
+        throw new ApiError(400, "invalid credentials"); 
     }
     return;
 }
@@ -26,9 +26,9 @@ const getUser = (email) => {
  */
 const createUser = (body) => {
     if (
-        !body.name ||!body.email ||!body.age 
+        !body.name ||!body.email ||!body.age || !(validator.isEmail(body.email))
     ) {
-        throw new ApiError(400, "invalid credentials.");
+        throw new ApiError(400, "invalid credentials");
     }
     return;
 }
@@ -45,9 +45,9 @@ const createUser = (body) => {
  */
 const updateUser = (body) => {
     if (
-        !body.name ||!body.email ||!body.age
+        !body.name ||!body.email ||!body.age || !(validator.isEmail(body.email))
     ) {
-        throw new ApiError(400, "invalid credentials.");
+        throw new ApiError(400, "invalid credentials");
     }
     return;
 }
@@ -60,8 +60,8 @@ const updateUser = (body) => {
  * @returns {void}
  */
 const deleteUser = (email) => {
-    if (!email) {
-        throw new ApiError(400, "email is not valid.");
+    if (!email || !(validator.isEmail(email))) {
+        throw new ApiError(400, "invalid credentials");
     }
     return;
 }

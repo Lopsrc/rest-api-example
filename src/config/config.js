@@ -1,14 +1,8 @@
 const dotenv = require('dotenv');
 const path = require('path');
 const Joi = require('joi');
-const fs = require("fs"); 
 
-// Check if the file exists, load local config, otherwise load configuration from prod file.
-if (fs.existsSync('./config/local/.env.example')) {
-    dotenv?.config({ path: path.join(__dirname, '../../config/local/.env.example') });
-}else{
-    dotenv.config({ path: path.join(__dirname, '../../config/prod/.env.example') });
-}
+dotenv?.config({ path: path.join(__dirname, '../../config/local/.env.example') });
 
 const envVarsSchema = Joi.object()
     .keys({
@@ -23,8 +17,9 @@ const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' }
 if (error) {
     console.log("config read error", error.message);
 }
+
 module.exports = {
-    env: envVars.ENV,
-    port: envVars.PORT,
-    database: envVars.DATABASE_URL,
+    env: envVars.ENV || process.env.ENV,
+    port: envVars.PORT || process.env.PORT,
+    database: envVars.DATABASE_URL || process.env.DATABASE_URL,
 };

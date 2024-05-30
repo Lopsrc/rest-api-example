@@ -83,6 +83,9 @@ const updateCar = async function(carUpdate){
 
         return id;
     } catch (error) {
+        if (error.code == 23505){ // The code is postgres error code.
+            throw new ApiError(400, "Car is already exist");
+        }
         throw error;
     }
 };

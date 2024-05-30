@@ -46,7 +46,6 @@ const createUser = async function(newUser) {
     try {        
         return await Repository.createUser(newUser);
     } catch (error) {
-        console.log(error)
         if (error.code == 23505){ // The code is postgres error code.
             throw new ApiError(400, "User is already exist");
         }

@@ -7,6 +7,8 @@ services:
     ports:
       - "3001:3000"
     environment:
+      - ENV=production
+      - PORT=3000
       - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
     restart: always
     depends_on:
@@ -23,6 +25,5 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - db_ps:/var/lib/postgresql/data
-
 volumes:
   db_ps: {}

@@ -7,8 +7,8 @@ const ApiError = require("../../pkg/error");
  * @returns {void}
  */
 const getCar = (id) => {
-    if (!id) {
-        throw new ApiError(400, "invalid credentials.");
+    if (!id || id == 0) {
+        throw new ApiError(400, "invalid credentials");
     }
     return;
 }
@@ -27,9 +27,9 @@ const getCar = (id) => {
 const createCar = (body) => {
     if (
         !body.id    ||!body.brand ||!body.model ||
-        !body.color ||!body.regNum 
+        !body.color ||!body.regNum || body.id == 0
     ) {
-        throw new ApiError(400, "invalid credentials.");
+        throw new ApiError(400, "invalid credentials");
     }
     return;
 }
@@ -48,9 +48,9 @@ const createCar = (body) => {
 const updateCar = (body) => {
     if (
         !body.id    ||!body.brand ||!body.model ||
-        !body.color ||!body.regNum 
+        !body.color ||!body.regNum || body.id == 0
     ) {
-        throw new ApiError(400, "invalid credentials.");
+        throw new ApiError(400, "invalid credentials");
     }
     return;
 }
@@ -62,8 +62,8 @@ const updateCar = (body) => {
  * @returns {void}
  */
 const deleteCar = (id) => {
-    if (!id) {
-        throw new ApiError(400, "invalid credentials.");
+    if (!id || id == 0) {
+        throw new ApiError(400, "invalid credentials");
     }
     return;
 }

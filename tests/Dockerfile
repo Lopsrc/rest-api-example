@@ -3,13 +3,13 @@ FROM node:latest
 # Create app directory
 WORKDIR /app
 
-COPY  package*.json ./
+COPY package*.json ./
 
 RUN npm install 
 
 # Bundle app source
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3001
 
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "test" ]

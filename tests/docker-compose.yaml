@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  crud-test:
+    container_name: crud-test
+    build: 
+      context: ../
+    ports:
+      - "3002:3001"
+    environment:
+      - ENV=test
+      - PORT=3001
+      - DATABASE_URL=postgres://postgres:postgres@db-test:5432/postgres
+    depends_on:
+      - db-test
+  
+  db-test:
+    container_name: db-test
+    image: postgres:latest
+    ports:
+      - "6060:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+    volumes:
+      - db_ps:/var/lib/postgresql/data
+
+volumes:
+  db_ps: {}

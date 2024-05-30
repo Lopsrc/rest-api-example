@@ -73,7 +73,7 @@ const createUser = async function(req, res) {
             age: body.age,
         });
 
-        res.status(201).send({status: 'OK', id: id});
+        res.status(201).send({status: 'OK', data: id});
     } catch (error) {
         logger.error(error.message);
         res.status(error?.status || 500).send({

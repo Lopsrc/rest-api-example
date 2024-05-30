@@ -44,7 +44,7 @@ const getById = async function(req, res) {
 
         const car = await service.getById(id);
 
-        res.send({ status: 'OK', car: car });
+        res.send({ status: 'OK', data: car });
     } catch (error) {
         logger.error(error.message);
 
@@ -79,7 +79,7 @@ const createCar = async function(req, res) {
             regNum: body.regNum,
         });
 
-        res.status(201).send({status: 'OK', id: id});
+        res.status(201).send({status: 'OK', data: id});
     } catch (error) {
         logger.error(error.message);
 
