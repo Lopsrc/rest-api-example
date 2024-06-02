@@ -27,7 +27,7 @@ describe('Routes. Fail Cases', () =>{
                 .send(users.createUser);
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('User is already exist');
+                expect(res.body.data).toBe('User is already exist');
             });
             test('should return error "invalid credentials"', async () =>{
                 let res = await request(app)
@@ -35,7 +35,7 @@ describe('Routes. Fail Cases', () =>{
                 .send({});
 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('invalid credentials');
+                expect(res.body.data).toBe('invalid credentials');
             });
         });
         describe('Get a user', () => {
@@ -46,7 +46,7 @@ describe('Routes. Fail Cases', () =>{
                 .send();
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('invalid credentials');
+                expect(res.body.data).toBe('invalid credentials');
     
             });
             test('should return error "User is not exist"', async () =>{
@@ -55,7 +55,7 @@ describe('Routes. Fail Cases', () =>{
                 .send();
     
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('User is not exist');
+                expect(res.body.data).toBe('User is not exist');
 
             });
         });
@@ -68,7 +68,7 @@ describe('Routes. Fail Cases', () =>{
                 .send(users.updateUser);
     
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('invalid credentials');
+                expect(res.body.data).toBe('invalid credentials');
             });
             
             test('should return error "User is not exist"', async () =>{
@@ -78,7 +78,7 @@ describe('Routes. Fail Cases', () =>{
                 .send(users.updateUser);
     
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('User is not exist');
+                expect(res.body.data).toBe('User is not exist');
             
             });
         });
@@ -99,7 +99,7 @@ describe('Routes. Fail Cases', () =>{
                 .send();
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('invalid credentials');
+                expect(res.body.data).toBe('invalid credentials');
     
             });
             
@@ -108,7 +108,7 @@ describe('Routes. Fail Cases', () =>{
                 .delete(`/api/v1/user/${notFoundEmail}`)
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('User is not exist');
+                expect(res.body.data).toBe('User is not exist');
 
             });
         });
@@ -120,7 +120,7 @@ describe('Routes. Fail Cases', () =>{
                 .send();
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('invalid credentials');
+                expect(res.body.data).toBe('invalid credentials');
     
             });
             test('should return an error "User is not exist"', async () => {
@@ -128,7 +128,7 @@ describe('Routes. Fail Cases', () =>{
                 .put(`/api/v1/user/${notFoundEmail}`)
     
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('User is not exist');
+                expect(res.body.data).toBe('User is not exist');
 
             });
         });
@@ -151,7 +151,7 @@ describe('Routes. Fail Cases', () =>{
                 .send(cars.createCar);
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('Car is already exist');
+                expect(res.body.data).toBe('Car is already exist');
 
             });
             test('should return error "User is not exist"', async () =>{
@@ -161,7 +161,7 @@ describe('Routes. Fail Cases', () =>{
                 .send(cars.createCar);
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('User is not exist');                
+                expect(res.body.data).toBe('User is not exist');                
                 
             });
             test('should return error "invalid credentials"', async () =>{
@@ -170,7 +170,7 @@ describe('Routes. Fail Cases', () =>{
                 .send({});
     
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('invalid credentials');
+                expect(res.body.data).toBe('invalid credentials');
             });	
         });
         describe('Get a car', () => {
@@ -182,7 +182,7 @@ describe('Routes. Fail Cases', () =>{
                 .send();
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('invalid credentials');
+                expect(res.body.data).toBe('invalid credentials');
     
             });
             test('should return an error "Car is not exist"', async () =>{
@@ -191,7 +191,7 @@ describe('Routes. Fail Cases', () =>{
                 .send();
     
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('Car is not exist');
+                expect(res.body.data).toBe('Car is not exist');
 
             });
         });
@@ -209,7 +209,7 @@ describe('Routes. Fail Cases', () =>{
                 .send(notValidCar);
     
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('invalid credentials');
+                expect(res.body.data).toBe('invalid credentials');
                 
             });
             test('should return an error "Car is not exist"', async () =>{
@@ -220,7 +220,7 @@ describe('Routes. Fail Cases', () =>{
                 .send(notValidCar);
     
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('Car is not exist');
+                expect(res.body.data).toBe('Car is not exist');
                 
             });
             test('should return an error "Car is already exist"', async () => {
@@ -244,7 +244,7 @@ describe('Routes. Fail Cases', () =>{
                 .send(newCar);
     
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('Car is already exist');
+                expect(res.body.data).toBe('Car is already exist');
             });
         });
         describe('Get all cars', () => {
@@ -265,7 +265,7 @@ describe('Routes. Fail Cases', () =>{
                 .send();
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('invalid credentials');
+                expect(res.body.data).toBe('invalid credentials');
     
             });
             test('should return an error "Car is not exist"', async () =>{
@@ -274,7 +274,7 @@ describe('Routes. Fail Cases', () =>{
                 .send();
                 
                 expect(res.status).toBe(400);
-                expect(res.body.data.error).toBe('Car is not exist');
+                expect(res.body.data).toBe('Car is not exist');
                 
             });
         });

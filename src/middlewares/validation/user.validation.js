@@ -1,74 +1,89 @@
-const ApiError = require("../../pkg/error");
-var validator = require('validator');
+const { param, body, validationResult } = require('express-validator'); 
+const logger = require('../../pkg/logger');
+
+const minAge = 1;
+const errInvalidCredentials = 'invalid credentials';
+
 /**
- * Retrieves a user based on the provided email.
- *
- * @param {string} email - The email of the user to retrieve.
- * @throws {ApiError} - Throws an error if the email is not provided.
- * @returns {void}
+ * Returns validation rules for GET requests.
+ * @returns {Array} - Array of validation rules.
  */
-const getUser = (email) => {
-    if (!email || !(validator.isEmail(email))) {
-        throw new ApiError(400, "invalid credentials"); 
-    }
-    return;
+const getValidationRules = () => {
+    return [
+        param('email').isEmail(),
+    ]
 }
 
 /**
- * Creates a new user with the provided details.
- *
- * @param {object} body - The details of the user to create.
- * @param {string} body.name - The name of the user.
- * @param {string} body.email - The email of the user.
- * @param {number} body.age - The age of the user.
- * @throws {ApiError} - Throws an error if any of the required details are not provided.
- * @returns {void}
+ * Returns validation rules for POST requests.
+ * @returns {Array} - Array of validation rules.
  */
-const createUser = (body) => {
-    if (
-        !body.name ||!body.email ||!body.age || !(validator.isEmail(body.email))
-    ) {
-        throw new ApiError(400, "invalid credentials");
-    }
-    return;
+const createValidationRules = () => {
+    return [
+        body('name').notEmpty(),
+        body('email').isEmail(),
+        body('age').isInt({min: minAge}),
+    ]
 }
 
 /**
- * Updates an existing user with the provided details.
- *
- * @param {object} body - The details of the user to update.
- * @param {string} body.name - The name of the user.
- * @param {string} body.email - The email of the user.
- * @param {number} body.age - The age of the user.
- * @throws {ApiError} - Throws an error if any of the required details are not provided.
- * @returns {void}
+ * Returns validation rules for PUT requests.
+ * @returns {Array} - Array of validation rules.
  */
-const updateUser = (body) => {
-    if (
-        !body.name ||!body.email ||!body.age || !(validator.isEmail(body.email))
-    ) {
-        throw new ApiError(400, "invalid credentials");
-    }
-    return;
+const updateValidationRules = () => {
+    return [
+        body('name').notEmpty(),
+        body('email').isEmail(),
+        body('age').isInt({min: minAge}),
+    ]
 }
 
 /**
- * Deletes a user based on the provided email.
- *
- * @param {string} email - The email of the user to delete.
- * @throws {ApiError} - Throws an error if the email is not provided.
- * @returns {void}
+ * Returns validation rules for DELETE requests.
+ * @returns {Array} - Array of validation rules.
  */
-const deleteUser = (email) => {
-    if (!email || !(validator.isEmail(email))) {
-        throw new ApiError(400, "invalid credentials");
+const deleteValidationRules = () => {
+    return [
+        param('email').isEmail(),
+    ]
+}
+
+/**
+ * Returns validation rules for password recovery requests.
+ * @returns {Array} - Array of validation rules.
+ */
+const recoveryValidationRules = () => {
+    return [
+        param('email').isEmail(),
+    ]
+}
+
+/**
+ * Middleware function to validate request data.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ * @returns {Object} - Express response object if validation fails.
+ */
+const validation =  (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+        return next();
     }
-    return;
+
+    logger.error(errInvalidCredentials);
+
+    return res.status(400).send({
+        status: 'FAILED',
+        data: errInvalidCredentials,
+    });
 }
 
 module.exports = {
-    getUser,
-    createUser,
-    updateUser,
-    deleteUser,
+    getValidationRules,
+    createValidationRules,
+    updateValidationRules,
+    deleteValidationRules,
+    recoveryValidationRules,
+    validation,
 };

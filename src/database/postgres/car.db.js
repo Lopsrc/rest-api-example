@@ -1,4 +1,6 @@
+const { error } = require("winston");
 const pool = require("../../pkg/clients/postgres/client");
+
 
 /**
  * Retrieves all cars from the database ordered by id in descending order.
@@ -6,17 +8,21 @@ const pool = require("../../pkg/clients/postgres/client");
  */
 const getAllcars = async () => {
     const query = "SELECT * FROM car ORDER BY id DESC";
-    return (await pool.query(query)).rows;
+    return await pool.query(query)
+    .then(rows => rows.rows)
+    .catch(error => { throw error; });
 };
 
 /**
- * Retrieves a car by its id from the database.
+ * Retrieves a car from the database by its id.
  * @param {number} id - The id of the car to retrieve.
  * @returns {Promise<Object>} A car object.
  */
 const getById = async (id) => {
     const query = "SELECT * FROM car WHERE id = $1";
-    return (await pool.query(query, [id])).rows[0];
+    return await pool.query(query, [id])
+    .then(rows => rows.rows[0])
+    .catch(error => { throw error; });
 };
 
 /**
@@ -31,7 +37,9 @@ const getById = async (id) => {
  */
 const createCar = async (car) => {
     const query = "INSERT INTO car (brand, model, color, reg_num, person_id) VALUES ($1, $2, $3, $4, $5) RETURNING id";
-    return (await pool.query(query, [car.brand, car.model, car.color, car.regNum, car.id])).rows[0].id;
+    return await pool.query(query, [car.brand, car.model, car.color, car.regNum, car.id])
+    .then(rows => rows.rows[0].id)
+    .catch(error => { throw error; });
 };
 
 /**
@@ -46,7 +54,9 @@ const createCar = async (car) => {
  */
 const updateCar = async (car) => {
     const query = "UPDATE car SET brand = $1, model = $2, color = $3, reg_num = $4 WHERE id = $5 RETURNING id";
-    return (await pool.query(query, [car.brand, car.model, car.color, car.regNum, car.id])).rows[0].id;
+    return await pool.query(query, [car.brand, car.model, car.color, car.regNum, car.id])
+    .then(rows => rows.rows[0].id)
+    .catch(error => { throw error; });    
 }
 
 /**
@@ -56,7 +66,9 @@ const updateCar = async (car) => {
  */
 const deleteCar = async (id) => {
     const query = "DELETE FROM car WHERE id = $1 RETURNING id";
-    return (await pool.query(query, [id])).rows[0];
+    return await pool.query(query, [id])
+    .then(rows => rows.rows[0])
+    .catch(error => { throw error; });
 }
 
 module.exports = { 

@@ -1,5 +1,4 @@
 const service = require('../services/car.service');
-const validate = require('../middlewares/validation/car.validation');
 const ApiError = require('../pkg/error');
 const logger = require('../pkg/logger');
 
@@ -10,20 +9,17 @@ const logger = require('../pkg/logger');
  * @returns {void}
  */
 const getAllCars = async function(req, res) {
-    try {
-        logger.info('Get all cars');
+    logger.info('Get all cars');
 
-        const cars = await service.getAllCars();
-
-        res.send({status: 200, data: cars});
-    } catch (error) {
+    await service.getAllCars()
+    .then(cars => res.send({status: 200, data: cars}))
+    .catch(error => {
         logger.error(error.message);
-
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error.message || "internal error" },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 /**
@@ -33,26 +29,20 @@ const getAllCars = async function(req, res) {
  * @returns {void}
  */
 const getById = async function(req, res) {
-    try {
-        logger.info('Get one car');
+    logger.info('Get one car');
 
-        const {id} = req.params;
-        const err = validate.getCar(id)
-        if (err) {
-            throw new ApiError(400, "invalid credentials");
-        }
+    const {id} = req.params;
 
-        const car = await service.getById(id);
-
-        res.send({ status: 'OK', data: car });
-    } catch (error) {
+    await service.getById(id)
+    .then(car => res.send({ status: 'OK', data: car }))
+    .catch((error) => { 
         logger.error(error.message);
 
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 /**
@@ -62,32 +52,26 @@ const getById = async function(req, res) {
  * @returns {void}
  */
 const createCar = async function(req, res) {
-    try {
-        logger.info('Create new car');
+    logger.info('Create new car');
 
-        const {body} = req;
-        const err =  validate.createCar(body);
-        if (err) {
-            throw new ApiError(400, "invalid credentials");
-        }
+    const {body} = req;
 
-        const id = await service.createCar({
-            id: body.id,
-            brand: body.brand,
-            model: body.model,
-            color: body.color,
-            regNum: body.regNum,
-        });
-
-        res.status(201).send({status: 'OK', data: id});
-    } catch (error) {
+    await service.createCar({
+        id: body.id,
+        brand: body.brand,
+        model: body.model,
+        color: body.color,
+        regNum: body.regNum,
+    })
+    .then(id => res.status(201).send({status: 'OK', data: id}))
+    .catch(error => {
         logger.error(error.message);
 
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 /**
@@ -97,32 +81,26 @@ const createCar = async function(req, res) {
  * @returns {void}
  */
 const updateCar = async function(req, res) {
-    try {
-        logger.info('Update one car');
+    logger.info('Update one car');
 
-        const {body} = req;
-        const err = validate.updateCar(body);
-        if (err) {
-            throw new ApiError(400, "invalid credentials");
-        }
+    const {body} = req;
 
-        const updateCar = await service.updateCar({
-            id: body.id,
-            brand: body.brand,
-            model: body.model,
-            color: body.color,
-            regNum: body.regNum,
-        });
-
-        res.send({status:'OK', data: updateCar});
-    } catch (error) {
+    await service.updateCar({
+        id: body.id,
+        brand: body.brand,
+        model: body.model,
+        color: body.color,
+        regNum: body.regNum,
+    })
+    .then(id => res.send({status:'OK', data: id}))
+    .catch(error => {
         logger.error(error.message);
 
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 /**
@@ -132,26 +110,20 @@ const updateCar = async function(req, res) {
  * @returns {void}
  */
 const deleteCar = async function(req, res) {
-    try {
-        logger.info('Delete one car');
+    logger.info('Delete one car');
 
-        const {params: {id}} = req;
-        const err =  validate.deleteCar(id);
-        if (err) {
-            throw new ApiError(400, "invalid credentials");
-        }
+    const {params: {id}} = req;
 
-        await service.deleteCar(id);
-
-        res.send({status:'OK', isDel: true});
-    } catch (error) {
+    await service.deleteCar(id)
+    .then(() => res.send({status:'OK', isDel: true}))
+    .catch(error => {
         logger.error(error.message);
 
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 module.exports = {

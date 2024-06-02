@@ -1,76 +1,85 @@
-const ApiError = require("../../pkg/error");
+const { param, body, validationResult } = require('express-validator'); 
+const logger = require('../../pkg/logger');
+
+const minLengthRegNum = 8;
+const maxLengthRegNum = 9;
+const errInvalidCredentials = 'invalid credentials';
 
 /**
- * Retrieves a car by its ID.
- * @param {string} id - The ID of the car to retrieve.
- * @throws Will throw an ApiError if the ID is not provided.
- * @returns {void}
+ * Returns validation rules for GET requests.
+ * @returns {Array} - Array of validation rules.
  */
-const getCar = (id) => {
-    if (!id || id == 0) {
-        throw new ApiError(400, "invalid credentials");
-    }
-    return;
+const getValidationRules = () => {
+    return [
+        param('id').isInt({min: 1}),
+    ]
 }
 
 /**
- * Creates a new car.
- * @param {object} body - The body of the request containing car details.
- * @param {string} body.id - The ID of the car.
- * @param {string} body.brand - The brand of the car.
- * @param {string} body.model - The model of the car.
- * @param {string} body.color - The color of the car.
- * @param {string} body.regNum - The registration number of the car.
- * @throws Will throw an ApiError if any required field is missing.
- * @returns {void}
+ * Returns validation rules for POST requests.
+ * @returns {Array} - Array of validation rules.
  */
-const createCar = (body) => {
-    if (
-        !body.id    ||!body.brand ||!body.model ||
-        !body.color ||!body.regNum || body.id == 0
-    ) {
-        throw new ApiError(400, "invalid credentials");
-    }
-    return;
+const createValidationRules = () => {
+    return [
+        body('id').isInt({min: 1}),
+        body('brand').notEmpty(),
+        body('model').notEmpty(),
+        body('color').notEmpty(),
+        body('regNum')
+        .notEmpty()
+        .isLength({min:minLengthRegNum, max:maxLengthRegNum}),
+    ]
 }
 
 /**
- * Updates an existing car.
- * @param {object} body - The body of the request containing updated car details.
- * @param {string} body.id - The ID of the car.
- * @param {string} body.brand - The brand of the car.
- * @param {string} body.model - The model of the car.
- * @param {string} body.color - The color of the car.
- * @param {string} body.regNum - The registration number of the car.
- * @throws Will throw an ApiError if any required field is missing.
- * @returns {void}
+ * Returns validation rules for PUT requests.
+ * @returns {Array} - Array of validation rules.
  */
-const updateCar = (body) => {
-    if (
-        !body.id    ||!body.brand ||!body.model ||
-        !body.color ||!body.regNum || body.id == 0
-    ) {
-        throw new ApiError(400, "invalid credentials");
-    }
-    return;
+const updateValidationRules = () => {
+    return [
+        body('id').isInt({min: 1}),
+        body('brand').notEmpty(),
+        body('model').notEmpty(),
+        body('color').notEmpty(),
+        body('regNum')
+        .notEmpty()
+        .isLength({min:minLengthRegNum, max:maxLengthRegNum}),
+    ]
 }
 
 /**
- * Deletes a car by its ID.
- * @param {string} id - The ID of the car to delete.
- * @throws Will throw an ApiError if the ID is not provided.
- * @returns {void}
+ * Returns validation rules for DELETE requests.
+ * @returns {Array} - Array of validation rules.
  */
-const deleteCar = (id) => {
-    if (!id || id == 0) {
-        throw new ApiError(400, "invalid credentials");
-    }
-    return;
+const deleteValidationRules = () => {
+    return [
+        param('id').isInt({min: 1}),
+    ]
 }
 
+/**
+ * Middleware function to validate request data.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ * @returns {Object} - Express response object if validation fails.
+ */
+const validation =  (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+        return next();
+    }
+    logger.error(errInvalidCredentials)
+
+    return res.status(400).send({
+        status: 'FAILED',
+        data: "invalid credentials",
+    });
+}
 module.exports = {
-    getCar,
-    createCar,
-    updateCar,
-    deleteCar,
+    getValidationRules,
+    createValidationRules,
+    updateValidationRules,
+    deleteValidationRules,
+    validation,
 };

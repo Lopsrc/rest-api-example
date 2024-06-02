@@ -1,5 +1,6 @@
 const express = require('express');
 const {getAllUsers, getByEmail, createUser, updateUser, deleteUser, recoveryUser} = require('../../controllers/user.controller');
+const validate = require('../../middlewares/validation/user.validation');
 
 const router = express.Router();
 
@@ -62,7 +63,7 @@ router
      *      500:
      *        description: Server Error
      */
-    .post(createUser)
+    .post(validate.createValidationRules(), validate.validation, createUser)
     /** PUT Method */
     /**
      * @openapi
@@ -99,7 +100,7 @@ router
      *      500:
      *        description: Server Error
      */
-    .put(updateUser);
+    .put(validate.updateValidationRules(), validate.validation, updateUser);
 
 router
     .route('/:email')
@@ -127,7 +128,7 @@ router
      *      500:
      *        description: Server Error
      */
-    .get(getByEmail)
+    .get(validate.getValidationRules(), validate.validation ,getByEmail)
     /** DELETE Methods */
     /**
      * @openapi
@@ -152,7 +153,7 @@ router
      *      500:
      *        description: Server Error
      */
-    .delete(deleteUser)
+    .delete(validate.deleteValidationRules(), validate.validation, deleteUser)
     /** PUT Method */
     /**
      * @openapi
@@ -177,7 +178,7 @@ router
      *      500:
      *        description: Server Error
      */
-    .put(recoveryUser);
+    .put(validate.recoveryValidationRules(), validate.validation, recoveryUser);
 
 
 module.exports = router;

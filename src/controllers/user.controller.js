@@ -1,171 +1,137 @@
 const service = require('../services/user.service');
-const validate = require('../middlewares/validation/user.validation');
-const ApiError = require('../pkg/error');
-
 const logger = require('../pkg/logger');
 
 /**
- * Fetches all users from the database.
+ * Fetch all users from the database.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @returns {void}
  */
 const getAllUsers = async function(req, res) {
-    try {
-        logger.info('Get all users');
-        const user = await service.getAllUsers();
-
-        res.send({status: 200, data: user});
-    } catch (error) {
+    await service.getAllUsers()
+    .then(users => res.send({status: 200, data: users}))
+    .catch(error => {
         logger.error(error.message);
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    })
 };
 
 /**
- * Fetches a user by email from the database.
+ * Fetch a user by email from the database.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @returns {void}
  */
 const getByEmail = async function(req, res) {
-    try {
-        logger.info('Get one user');
-        const {email} = req.params;
-        const err = validate.getUser(email)
-        if (err) {
-            throw err;
-        }
-        const user = await service.getByEmail(email);
+    logger.info('Get one user');
+    const {email} = req.params;
 
-        res.send({status: 'OK', data: user});
-    } catch (error) {
+    await service.getByEmail(email)
+    .then(user => res.send({ status: 'OK', data: user }))
+    .catch(error => {
         logger.error(error.message);
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 /**
- * Creates a new user in the database.
+ * Create a new user in the database.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @returns {void}
  */
 const createUser = async function(req, res) {
-    
-    try {
-        logger.info('Create new user');
-        const {body} = req;
-        const err =  validate.createUser(body);
-        if (err) {
-            throw err;
-        }
-        const id = await service.createUser({
-            name: body.name,
-            lastName: body.lastName,
-            email: body.email,
-            age: body.age,
-        });
+    logger.info('Create new user');
+    const {body} = req;
 
-        res.status(201).send({status: 'OK', data: id});
-    } catch (error) {
+    await service.createUser({
+        name: body.name,
+        lastName: body.lastName,
+        email: body.email,
+        age: body.age,
+    })
+    .then(id => res.status(201).send({status: 'OK', data: id}))
+    .catch(error => {
         logger.error(error.message);
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 /**
- * Updates an existing user in the database.
+ * Update an existing user in the database.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @returns {void}
  */
 const updateUser = async function(req, res) {
-    try {
-        logger.info('Update one user');
-        const {body} = req;
-        const err =  validate.updateUser(body);
-        if (err) {
-            res.status(400).send({data: err.message});
-            return;
-        }
-        const user = await service.updateUser({
-            name: body.name,
-            lastName: body.lastName,
-            email: body.email,
-            age: body.age,
-        });
-        res.send({status:'OK', data: user});
-    } catch (error) {
+    logger.info('Update one user');
+    const {body} = req;
+
+    await service.updateUser({
+        name: body.name,
+        lastName: body.lastName,
+        email: body.email,
+        age: body.age,
+    })
+    .then(id => res.send({status:'OK', data: id}))
+    .catch(error => {
         logger.error(error.message);
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 /**
- * Deletes a user from the database.
+ * Delete a user from the database.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @returns {void}
  */
 const deleteUser = async function(req, res) {
-    try {
-        logger.info('Delete one user');
-        const {params: {email}} = req;
-        const err =  validate.deleteUser(email);
-        if (err) {
-            throw new ApiError(403,
-                "email is not valid.",
-            )
-        }
-        await service.deleteUser(email);
-        res.send({status:'OK', isDel: true});
-    } catch (error) {
+    logger.info('Delete one user');
+    const {params: {email}} = req;
+
+    await service.deleteUser(email)
+    .then(() => res.send({status:'OK', isDel: true}))
+    .catch(error => {
         logger.error(error.message);
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 /**
- * Recovers a deleted user from the database.
+ * Recover a deleted user from the database.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @returns {void}
  */
 const recoveryUser = async function(req, res) {
-    try {
-        logger.info('Recover one user');
-        const {params: {email}} = req;
-        const err =  validate.deleteUser(email);
-        if (err) {
-            throw new ApiError(403,
-                "email is not valid.",
-            )
-        }
-        await service.recoveryUser(email);
-        res.send({status:'OK', isRec: true});
-    } catch (error) {
+    logger.info('Recover one user');
+    const {params: {email}} = req;
+
+    await service.recoveryUser(email)
+    .then(() => res.send({status:'OK', isRec: true}))
+    .catch(error => {
         logger.error(error.message);
         res.status(error?.status || 500).send({
             status: 'FAILED',
-            data: { error: error?.message || error },
+            data: error?.message || error,
         });
-    }
+    });
 };
 
 module.exports = {

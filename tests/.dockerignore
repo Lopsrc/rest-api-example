@@ -1,7 +1,0 @@
-node_modules
-info.todo
-.gitignore
-config
-Dockerfile
-docker-compose.yaml
-info

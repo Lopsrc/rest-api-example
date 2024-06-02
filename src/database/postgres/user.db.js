@@ -6,7 +6,9 @@ const pool = require("../../pkg/clients/postgres/client");
  */
 const getAllUsers = async () => {
     const query = "SELECT * FROM person ORDER BY id DESC";
-    return (await pool.query(query)).rows;
+    return await pool.query(query)
+    .then(rows => rows.rows)
+    .catch(error => { throw error; });
 };
 
 /**
@@ -16,7 +18,9 @@ const getAllUsers = async () => {
  */
 const getByEmail = async (email) => {
     const query = "SELECT * FROM person WHERE email = $1";
-    return (await pool.query(query, [email])).rows[0];
+    return await pool.query(query, [email])
+    .then(rows => rows.rows[0])
+    .catch(error => { throw error; });
 };
 
 /**
@@ -26,7 +30,9 @@ const getByEmail = async (email) => {
  */
 const getById = async (id) => {
     const query = "SELECT * FROM person WHERE id = $1";
-    return (await pool.query(query, [id])).rows[0];
+    return await pool.query(query, [id])
+    .then(rows => rows.rows[0])
+    .catch(error => { throw error; });
 };
 
 /**
@@ -39,7 +45,9 @@ const getById = async (id) => {
  */
 const createUser = async (newUser) => {
     const query = "INSERT INTO person (name, email, age) VALUES ($1, $2, $3) RETURNING id";
-    return (await pool.query(query, [newUser.name, newUser.email, newUser.age])).rows[0];
+    return await pool.query(query, [newUser.name, newUser.email, newUser.age])
+    .then(rows => rows.rows[0])
+    .catch(error => { throw error; });
 };
 
 /**
@@ -52,7 +60,9 @@ const createUser = async (newUser) => {
  */
 const updateUser = async (user) => {
     const query = "UPDATE person SET name = $1, age = $2 WHERE email = $3 RETURNING id";
-    return (await pool.query(query, [user.name, user.age, user.email])).rows[0];
+    return await pool.query(query, [user.name, user.age, user.email])
+    .then(rows => rows.rows[0])
+    .catch(error => { throw error; })
 };
 
 /**
@@ -62,7 +72,9 @@ const updateUser = async (user) => {
  */
 const deleteUser = async (email) => {
     const query = "UPDATE person SET del = $1 WHERE email = $2 RETURNING id";
-    return (await pool.query(query, [true, email])).rows[0];
+    return await pool.query(query, [true, email])
+    .then(rows => rows.rows[0])
+    .catch(error => { throw error; });
 };
 
 /**
@@ -72,7 +84,9 @@ const deleteUser = async (email) => {
  */
 const recoveryUser = async (email) => {
     const query = "UPDATE person SET del = $1 WHERE email = $2 RETURNING id";
-    return (await pool.query(query, [false, email])).rows[0];
+    return await pool.query(query, [false, email])
+    .then(rows => rows.rows[0])
+    .catch(error => { throw error; });
 };
 
 module.exports = { 

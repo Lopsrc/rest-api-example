@@ -1,5 +1,6 @@
 const express = require('express');
 const {getAllCars, getById, createCar, updateCar, deleteCar} = require('../../controllers/car.controller');
+const validate = require('../../middlewares/validation/car.validation');
 
 const router = express.Router();
 
@@ -72,7 +73,7 @@ router
      *      500:
      *        description: Server Error
      */
-    .post(createCar)
+    .post(validate.createValidationRules(), validate.validation, createCar)
     /** PUT Method */
     /**
      * @openapi
@@ -121,7 +122,7 @@ router
      *      500:
      *        description: Server Error
      */
-    .put(updateCar);
+    .put(validate.updateValidationRules(), validate.validation, updateCar);
 
 router
     .route('/:id')
@@ -149,7 +150,7 @@ router
      *      500:
      *        description: Server Error
      */
-    .get(getById)
+    .get(validate.getValidationRules(), validate.validation, getById)
     /** DELETE Methods */
     /**
      * @openapi
@@ -174,7 +175,7 @@ router
      *      500:
      *        description: Server Error
      */
-    .delete(deleteCar);
+    .delete(validate.deleteValidationRules(), validate.validation, deleteCar);
 
 
 module.exports = router;
